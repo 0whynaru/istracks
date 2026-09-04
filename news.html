@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ISTrack - Warta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="news.css">
+<script src="theme.js"></script>
+<script src="menu-color.js"></script>
+<script src="i18n.js"></script>
+<script src="motion.js"></script>
+</head>
+<body>
+
+<div class="site-nav-bar">
+  <nav class="site-nav">
+    <a class="site-brand" href="index.html" aria-label="ISTrack - beranda">
+      <span class="site-brand-orbit" aria-hidden="true"><span class="site-brand-orbit-dot"></span></span>
+      <span class="site-brand-text">ISTrack</span>
+    </a>
+    <button class="hamburger-btn" id="hamburgerBtn" data-i18n-aria-label="nav.openMenu" aria-label="Buka menu" aria-expanded="false" aria-controls="siteNavLinks">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="site-nav-links" id="siteNavLinks">
+      <a href="index.html" class="site-nav-link"><i class="fa-solid fa-satellite nav-link-icon" aria-hidden="true"></i><span data-i18n="nav.iss">Pelacak ISS</span></a>
+      <a href="news.html" class="site-nav-link active"><i class="fa-regular fa-newspaper nav-link-icon" aria-hidden="true"></i><span data-i18n="nav.news">Warta</span></a>
+      <a href="settings.html" class="site-nav-link"><i class="fa-solid fa-gear nav-link-icon" aria-hidden="true"></i><span data-i18n="nav.settings">Pengaturan</span></a>
+    </div>
+  </nav>
+</div>
+
+<div class="ticker-bar" id="tickerBar">
+  <span class="ticker-tag"><span class="live-dot"></span><span data-i18n="news.live">Langsung</span></span>
+  <div class="ticker-track-wrap">
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-item" data-i18n="news.connectingTicker">Menghubungkan ke sumber berita…</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="brand">
+      <i class="fa-solid fa-newspaper"></i>
+      <div>
+        <p class="brand-name" data-i18n="news.brandName">Warta</p>
+        <p class="brand-tag" data-i18n="news.brandTag">Ringkasan berita, langsung dari sumbernya</p>
+      </div>
+    </div>
+    <div class="masthead-right">
+      <form class="search" id="searchForm">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" data-i18n-placeholder="news.searchPlaceholder" placeholder="Cari topik, mis. ekonomi" autocomplete="off">
+      </form>
+      <div class="clock" id="clock">
+        <i class="fa-regular fa-clock"></i>
+        <span id="clockText">--:--:--</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="chipbar" id="chipBar">
+    <button class="chip active" data-cat="top"><i class="fa-solid fa-fire"></i><span data-i18n="news.cat.top">Terpopuler</span></button>
+    <button class="chip" data-cat="world"><i class="fa-solid fa-earth-asia"></i><span data-i18n="news.cat.world">Dunia</span></button>
+    <button class="chip" data-cat="politics"><i class="fa-solid fa-landmark"></i><span data-i18n="news.cat.politics">Politik</span></button>
+    <button class="chip" data-cat="business"><i class="fa-solid fa-briefcase"></i><span data-i18n="news.cat.business">Bisnis</span></button>
+    <button class="chip" data-cat="technology"><i class="fa-solid fa-microchip"></i><span data-i18n="news.cat.technology">Teknologi</span></button>
+    <button class="chip" data-cat="sports"><i class="fa-solid fa-futbol"></i><span data-i18n="news.cat.sports">Olahraga</span></button>
+    <button class="chip" data-cat="entertainment"><i class="fa-solid fa-clapperboard"></i><span data-i18n="news.cat.entertainment">Hiburan</span></button>
+    <button class="chip" data-cat="health"><i class="fa-solid fa-heart-pulse"></i><span data-i18n="news.cat.health">Kesehatan</span></button>
+    <button class="chip" data-cat="science"><i class="fa-solid fa-flask"></i><span data-i18n="news.cat.science">Sains</span></button>
+  </nav>
+
+  <main id="mainContent">
+
+    <section class="hero-slot" id="heroSlot"></section>
+
+    <section class="grid" id="newsGrid"></section>
+
+    <div class="state-row" id="stateRow"></div>
+
+    <div class="loadmore-row hidden" id="loadMoreRow">
+      <button id="loadMoreBtn" class="loadmore-btn">
+        <i class="fa-solid fa-arrows-rotate"></i>
+        <span data-i18n="news.loadMore">Muat lebih banyak</span>
+      </button>
+    </div>
+
+  </main>
+
+  <footer>
+    <p><span data-i18n="news.footerPrefix">Data berita dari</span> <a href="https://newsdata.io/" target="_blank" rel="noopener">NewsData.io</a>.
+      <button class="link-btn" id="changeKeyBtn" data-i18n="news.changeKey">Ganti kunci API</button>
+    </p>
+  </footer>
+
+</div>
+
+<div class="modal-backdrop hidden" id="apiModal">
+  <div class="modal-card">
+    <i class="fa-solid fa-key modal-icon"></i>
+    <h2 data-i18n="news.modalTitle">Pasang kunci API dulu, ya</h2>
+    <p data-i18n-html="news.modalBody">Warta memakai <b>NewsData.io</b> untuk mengambil berita - gratis, cukup daftar tanpa kartu kredit, lalu tempel kunci API di bawah ini. Kunci disimpan hanya di peramban ini.</p>
+    <input type="text" id="apiKeyInput" data-i18n-placeholder="news.apiKeyPlaceholder" placeholder="Tempel kunci API di sini">
+    <button id="saveKeyBtn" class="loadmore-btn primary">
+      <i class="fa-solid fa-check"></i>
+      <span data-i18n="news.saveAndStart">Simpan &amp; mulai</span>
+    </button>
+    <a href="https://newsdata.io/register" target="_blank" rel="noopener" class="modal-link">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      <span data-i18n="news.noKeyYet">Belum punya kunci? Daftar gratis di sini</span>
+    </a>
+    <p class="modal-error hidden" id="modalError"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var btn=document.getElementById('hamburgerBtn');
+  var links=document.getElementById('siteNavLinks');
+  if(!btn||!links)return;
+  function close(){
+    links.classList.remove('open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var open=links.classList.toggle('open');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open?'true':'false');
+  });
+  links.addEventListener('click',function(e){
+    if(e.target.tagName==='A')close();
+  });
+  document.addEventListener('click',function(e){
+    if(!links.contains(e.target)&&!btn.contains(e.target))close();
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape')close();
+  });
+})();
+</script>
+<script src="news.js"></script>
+<script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2026/09/04/01/20260904015826-556E0SH3.js" defer></script>
+<script src="botpress-widget.js"></script>
+</body>
+</html>
